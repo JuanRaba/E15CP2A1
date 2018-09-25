@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  get 'histories/mine', to: "histories#mine"
   resources :histories
 
   root "histories#index"

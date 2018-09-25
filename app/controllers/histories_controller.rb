@@ -1,13 +1,15 @@
 class HistoriesController < ApplicationController
   before_action :set_history, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:show, :index]
+  before_action :authenticate_user!, except: [:index]
 
   # GET /histories
   # GET /histories.json
   def index
     @histories = History.all
   end
-
+  def mine
+    @histories = helpers.current_user.histories
+  end
   # GET /histories/1
   # GET /histories/1.json
   def show
@@ -41,7 +43,11 @@ class HistoriesController < ApplicationController
 
   # PATCH/PUT /histories/1
   # PATCH/PUT /histories/1.json
-  def update
+  def update    
+    if helpers.current_user.admin != true and @history.user_id != helpers.current_user.id
+      redirect_to @history, alert: 'You are not allowed to modify this history.'
+      return
+    end
     respond_to do |format|
       if @history.update(history_params)
         format.html { redirect_to @history, notice: 'History was successfully updated.' }
@@ -56,6 +62,10 @@ class HistoriesController < ApplicationController
   # DELETE /histories/1
   # DELETE /histories/1.json
   def destroy
+    if helpers.current_user.admin != true and @history.user_id != helpers.current_user.id
+      redirect_to @history, alert: 'You are not allowed to modify this history.'
+      return
+    end
     @history.destroy
     respond_to do |format|
       format.html { redirect_to histories_url, notice: 'History was successfully destroyed.' }
