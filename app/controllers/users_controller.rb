@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  #before_action :authenticate_admin!
+  before_action :authenticate_admin!
   # GET /users
   # GET /users.json
   def index
