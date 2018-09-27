@@ -1,4 +1,7 @@
 <% if user_signed_in? %>
+  <% if current_user.try(:admin) %>
+    <li><%= link_to "Administracion", users_path %></li>
+  <%end%>
   <li><%= link_to "MisHistorias", histories_mine_path %></li>
   <li><%= link_to "Editar cuenta", edit_user_registration_path %></li>
   <li><%= link_to "Salir", destroy_user_session_path, method: :delete %></li>

@@ -1,0 +1,14 @@
+<table>
+<% @users.each do |u| %>
+  <tr>
+    <td><%=u.name%></td>
+    <td><%=u.username%></td>
+    <% if u.admin %>
+      <td><%= link_to "Remove admin", removeadmin_path(u) %></td>
+    <%else%>
+      <td><%= link_to "DO admin", addtoadmin_path(u) %></td>
+    <%end%>
+    <td><%= link_to "Remove user", userdestroy_path(u)%></td>
+  </tr>
+<% end%>
+</table>
